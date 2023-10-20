@@ -3,7 +3,8 @@ const express = require('express')
 const app = express()
 const cors = require('cors');
 require('dotenv').config();
-const port = process.env.PORT || 5000;
+const port = 5000;
+// const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors());
@@ -27,7 +28,11 @@ async function run() {
 
     const dataCollection = client.db("chart").collection("data");
 
-    app.get("/data", async (req, res) => {
+    app.get('/', (req, res) => {
+      res.send('Hello World from blackCoffer')
+    })
+
+    app.get("/chartData", async (req, res) => {
       const cursor = dataCollection.find();
       const result = await cursor.toArray();
       res.send(result);
@@ -39,10 +44,6 @@ async function run() {
 }
 run().catch(console.dir);
 
-
-app.get('/', (req, res) => {
-  res.send('Hello World from blackCoffer')
-})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
